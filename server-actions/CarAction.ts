@@ -96,7 +96,11 @@ export const addCarAction = async (formData: FormData) => {
 
 export const getAllCars = async () => {
     try {
-        const cars = await prisma.car.findMany();
+        const cars = await prisma.car.findMany({
+            orderBy: {
+                model: 'asc'
+            }
+        });
 
         return cars as {
              id: number; 
