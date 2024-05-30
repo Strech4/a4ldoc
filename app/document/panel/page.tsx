@@ -29,13 +29,13 @@ export default async function Panel() {
     }
 
     // Vérifie si l'utilisateur est un admin
-    const isAdmin = await checkUserRole(session?.user?.id, 'admin');
+    const isAdmin = await checkUserRole((session?.user as { id: string }).id, 'admin');
     if (!isAdmin) {
         redirect("/");
         return null;
     }
 
-    const isDev = await checkUserRole(session?.user?.id, 'dev');
+    const isDev = await checkUserRole((session?.user as { id: string }).id, 'dev');
 
     return (
         <section className='grid grid-cols-12 gap-4 p-4'>
