@@ -7,8 +7,11 @@ import React, { useState, useEffect, FormEventHandler } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { addCarAction, getCartTypeAction } from '@/server-actions/CarAction'
 import { toast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
+
 
 export const AddCarForm = () => {
+    const router = useRouter();
     const [carTypes, setCarTypes] = useState<{ id: string; name: string; }[]>([]);
 
     useEffect(() => {
@@ -45,44 +48,41 @@ export const AddCarForm = () => {
                 variant: "default",
             })
         }
-
     };
 
     return (
         <Block className='col-span-12 md:col-span-4'>
             <form className='space-y-2' onSubmit={onSubmit}>
                 <Label className=''>Ajouter un véhicule</Label>
-                        <Input type='text' name='name' placeholder='Nom du véhicule' />
-                        <Select name='carType'>
-                            <SelectTrigger className="">
-                                <SelectValue placeholder="Modèle du véhicule" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {carTypes.map(item => (
-                                    <SelectItem key={item.id} value={item.name}>{item.name}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Input type='number' name='price' placeholder='Prix' />
-                        <Input type='number' name='maxSpeed' placeholder='Vitesse max' />
-                        <Input type='number' name='powerFul' placeholder='Puissance' />
-                        <Input type='number' name='seat' placeholder='Siège' />
-                        <Input type='number' name='safe' placeholder='Coffre' />
-                        <Select name='available'>
-                            <SelectTrigger className="">
-                                <SelectValue placeholder="Le véhicule est-il disponible ?" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                    <SelectItem value="oui">
-                                        Oui
-                                    </SelectItem>
-                                    <SelectItem value="non">
-                                        Non
-                                    </SelectItem>
-                            </SelectContent>
-                        </Select>
+                <Input type='text' name='name' placeholder='Nom du véhicule' />
+                <Select name='carType' defaultValue=''>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Modèle du véhicule" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {carTypes.map(item => (
+                            <SelectItem key={item.id} value={item.name}>{item.name}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                <Input type='number' name='price' placeholder='Prix' />
+                <Input type='number' name='maxSpeed' placeholder='Vitesse max' />
+                <Input type='number' name='powerFul' placeholder='Puissance' />
+                <Input type='number' name='seat' placeholder='Siège' />
+                <Input type='number' name='safe' placeholder='Coffre' />
+                <Select name='available' defaultValue=''>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Le véhicule est-il disponible ?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="oui">Oui</SelectItem>
+                        <SelectItem value="non">Non</SelectItem>
+                    </SelectContent>
+                </Select>
                 <SubmitButton className='w-full'>Ajouter le véhicule</SubmitButton>
             </form>
         </Block>
     )
 }
+
+

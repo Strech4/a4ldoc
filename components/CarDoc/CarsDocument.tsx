@@ -41,8 +41,8 @@ const CarsDocument: React.FC = () => {
 
         fetchCars();
     }, []);
-
-    const filteredCars = cars.filter(car => car.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const FilteredCars = cars.filter(car => car.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
     if (loading) return <div className='space-y-4'>
         <Skeleton className="w-1/2 mx-auto h-12 rounded-xl" />
@@ -61,9 +61,8 @@ const CarsDocument: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="mb-4 w-full md:w-1/2 mx-auto"
             />
-            <CarTable cars={filteredCars} />
+            <CarTable cars={FilteredCars} />
         </>
     );
 };
-
 export default CarsDocument;
