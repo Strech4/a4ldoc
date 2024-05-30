@@ -23,7 +23,7 @@ export default async function page() {
         return null;
     }
 
-    const isDev = await checkUserRole(session?.user?.id, 'dev');
+    const isDev = await checkUserRole((session?.user as { id: string }).id, 'dev');
 
     if (!isDev) {
         redirect("/");
