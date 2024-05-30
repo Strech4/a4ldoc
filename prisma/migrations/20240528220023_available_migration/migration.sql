@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Car" ALTER COLUMN "available" DROP DEFAULT,
+ALTER COLUMN "available" SET DATA TYPE TEXT;

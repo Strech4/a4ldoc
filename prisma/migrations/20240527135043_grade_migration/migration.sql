@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "grade" SET DEFAULT 'user',
+ALTER COLUMN "grade" SET DATA TYPE TEXT;
