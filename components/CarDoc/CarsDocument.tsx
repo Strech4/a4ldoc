@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getAllCars } from '@/server-actions/CarAction';
 import { CarTable } from './CarTable';
 import { Skeleton } from '../ui/skeleton';
@@ -24,16 +24,19 @@ const CarsDocument: React.FC = () => {
 
     useEffect(() => {
         const fetchCars = async () => {
+            setLoading(true);
             try {
                 const result = await getAllCars();
-                if (!('error' in result)) {
-                    setCars(result);
+                if ('error' in result) {
+                    setError(result.error);
+                    setCars([]);
                 } else {
-                    throw new Error(result.error);
+                    setCars(result);
+                    setError(null);
                 }
             } catch (err) {
                 setError('Erreur lors de la récupération des voitures');
-                console.error(err);
+                setCars([]);
             } finally {
                 setLoading(false);
             }
@@ -41,8 +44,14 @@ const CarsDocument: React.FC = () => {
 
         fetchCars();
     }, []);
-    
-    const FilteredCars = cars.filter(car => car.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    const FilteredCars = useMemo(() => cars.filter(car => {
+        const searchTerms = searchTerm.toLowerCase().split(' ');
+        return searchTerms.every(term => 
+            car.name.toLowerCase().includes(term) ||
+            car.model.toLowerCase().includes(term)
+        );
+    }), [cars, searchTerm]);
 
     if (loading) return <div className='space-y-4'>
         <Skeleton className="w-1/2 mx-auto h-12 rounded-xl" />
@@ -56,7 +65,7 @@ const CarsDocument: React.FC = () => {
         <>
             <Input
                 type="text"
-                placeholder="Rechercher par modèle..."
+                placeholder="Rechercher par modèle ou marque..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="mb-4 w-full md:w-1/2 mx-auto"

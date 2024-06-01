@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import { NavBar } from "@/components/basic/NavBar";
+import { ThemeProvider } from "@/components/basic/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,14 +21,21 @@ export default function RootLayout({
     return (
         <html lang="fr">
             <body className={cn(
-                    inter.className,
-                    'min-h-screen bg-background font-sans antialiased'
-                )}>
-                <NavBar />
-                <main className="flex-1">
-                    {children}
-                </main>
-                <Toaster />
+                inter.className,
+                'min-h-screen bg-background font-sans antialiased'
+            )}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="light"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <NavBar />
+                    <main className="flex-1">
+                        {children}
+                    </main>
+                    <Toaster />
+                </ThemeProvider>
             </body>
         </html>
     );
